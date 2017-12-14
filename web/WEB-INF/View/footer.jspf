@@ -1,0 +1,12 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<div style="
+background-color: black;
+text-align: center;
+position:fixed;
+bottom:0;
+width:100%;
+padding:20px;">
+    <p style="color: white">© 2017 SIMONE SCIFO ALL RIGHTS RESERVED</p>
+</div>
+</body>
+</html>
