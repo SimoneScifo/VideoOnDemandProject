@@ -5,6 +5,7 @@ import com.dao.FilmDAO;
 import com.dao.dto.FilmDTO;
 import com.facade.FacadeService;
 import com.facade.FacadeServiceImpl;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.videoondemand.model.Genre;
 import com.videoondemand.model.Product;
 
@@ -29,45 +30,78 @@ public class FormAddController extends HttpServlet {
         String title = request.getParameter("title");
         String genre = request.getParameter("genre");
         String year = request.getParameter("year");
+        String id = request.getParameter("id");
+        String action = request.getParameter("action");
 
-        request.setAttribute("errors",validate(title,Integer.parseInt(genre),year));
-        doGet(request,response);
+        FacadeService facadeService = FacadeServiceImpl.getInstance();
+
+        List<String> errors = validate(title, Integer.parseInt(genre), year);
+        if (!errors.isEmpty()) {
+            request.setAttribute("errors", errors);
+            request.setAttribute("title", title);
+            request.setAttribute("genre", genre);
+            request.setAttribute("year", year);
+            doGet(request, response);
+        } else {
+            FilmDTO filmDTO = new FilmDTO();
+            filmDTO.title = title;
+            filmDTO.id_genre = Integer.valueOf(genre);
+            filmDTO.year = Integer.valueOf(year);
+            if (action.equals("add")) {
+
+                facadeService.insert(filmDTO);
+            } else if (action.equals("edit")) {
+                filmDTO.id = Integer.parseInt(id);
+                facadeService.update(filmDTO);
+            }
+        }
+        response.sendRedirect("FilmList");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
         FacadeService facadeService = FacadeServiceImpl.getInstance();
-        request.setAttribute("genres",facadeService.findAllGenres());
-        request.getRequestDispatcher("/formAddProduct.jsp").forward(request,response);
 
+        if (action.equals("add")) {
+            request.setAttribute("action", "add");
+            request.setAttribute("genres", facadeService.findAllGenres());
+            request.getRequestDispatcher("/formAddProduct.jsp").forward(request, response);
+        } else if (action.equals("delete")) {
+            String id = request.getParameter("id");
+            FilmDTO f = facadeService.findByID(Integer.parseInt(id));
+            facadeService.delete(f);
+            request.getRequestDispatcher("FilmList").forward(request, response);
+        } else if (action.equals("edit")) {
+
+            String id = request.getParameter("id");
+            FilmDTO f = facadeService.findByID(Integer.parseInt(id));
+            request.setAttribute("id", f.id);
+            request.setAttribute("title", f.title);
+            request.setAttribute("genre", f.id_genre);
+            request.setAttribute("year", f.year);
+            request.setAttribute("genres", facadeService.findAllGenres());
+            request.setAttribute("action", "edit");
+            request.getRequestDispatcher("/formAddProduct.jsp").forward(request, response);
+        }
     }
 
-    public List<String> validate(String title,int genre, String year){
+    public List<String> validate(String title, int genre, String year) {
         List<String> errors = new ArrayList<>();
 
-        FacadeService facadeService = FacadeServiceImpl.getInstance();
-
-        if(!checkTitle(title)) {
+        if (!checkTitle(title)) {
             errors.add("Il titolo deve avere una lunghezza di almeno due caratteri!");
         }
-        if(!checkYearIsNumber(year)) {
+        if (!checkYearIsNumber(year)) {
             errors.add("L'anno deve essere un numero valido!");
         }
-        if(!checkYear(year)) {
+        if (!checkYear(year)) {
             errors.add("L'anno deve essere compreso tra il 1900 e il 2017");
-        }
-        if(errors.isEmpty()){
-            FilmDTO filmDTO = new FilmDTO();
-            filmDTO.title =title;
-            filmDTO.id_genre = Integer.valueOf(genre);
-            filmDTO.year = Integer.valueOf(year);
-            System.out.println(title + genre + year);
-            facadeService.insert(filmDTO);
         }
         return errors;
     }
 
     private boolean checkTitle(String title) {
-        if(title.length()>=2) {
+        if (title.length() >= 2) {
             return true;
         }
         return false;
@@ -75,7 +109,7 @@ public class FormAddController extends HttpServlet {
 
     private boolean checkYearIsNumber(String year) {
         String regex = "\\d+";
-        if(year.matches(regex)) {
+        if (year.matches(regex)) {
             return true;
         }
         return false;

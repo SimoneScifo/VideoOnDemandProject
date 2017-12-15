@@ -6,17 +6,21 @@
 <%@ page import="com.dao.jdbc.JdbcDAOFactory" %>
 <%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%String titleForm = request.getParameter("title");
-String genreForm = request.getParameter("genre");
-String yearForm = request.getParameter("year");
-    titleForm=(titleForm==null)?"":titleForm;
-    genreForm=(genreForm==null)?"0":genreForm;
-    yearForm=(yearForm==null)?"":yearForm;
+<%String titleForm = (String) request.getAttribute("title");
+    String id = String.valueOf(request.getAttribute("id"));
+    String genreForm = String.valueOf(request.getAttribute("genre"));
+    String yearForm = String.valueOf(request.getAttribute("year"));
+    String action = (String)request.getAttribute("action");
+    titleForm=(titleForm==null||titleForm.equals("null"))?"":titleForm;
+    genreForm=(genreForm==null||genreForm.equals("null"))?"0":genreForm;
+    yearForm=(yearForm==null||yearForm.equals("null"))?"":yearForm;
+    action=(action==null||action.equals("null"))?"add":action;
+    id=(id==null)?"0":id;
 %>
 <article>
 <h1>Modulo Carica Prodotto</h1>
 <br>
-    <form action="/FormAddController" method="post">
+    <form action="FormAddController?action=<%=action%>" method="post" enctype="multipart/form-data">
         Title
         <br>
         <input type="text" name="title" value='<%=titleForm%>'/>
@@ -43,8 +47,20 @@ String yearForm = request.getParameter("year");
         <br>
         Anno
         <br>
-        <input type="text" name="year" value='<%=yearForm%>'/>
+        <input type="text" name="year" value='<%=yearForm%>'/><br>
+        <input name="cover" type="file"><br>
+        <%
+        if(action.equals("add")){
+        %>
         <input type="submit" value="Salva"/>
+        <%
+            }else{
+        %>
+        <input type="submit" value="Update">
+        <input type="text" hidden="hidden" name="id" value='<%=id%>'>
+        <%
+            }
+        %>
     </form>
     <%List<String> errors =(List<String>) request.getAttribute("errors");
     if(errors!=null&&!errors.isEmpty()){

@@ -19,6 +19,6 @@ public class FilmList extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FacadeService facadeService = FacadeServiceImpl.getInstance();
         request.setAttribute("list", facadeService.findAll());
-        getServletContext().getRequestDispatcher("/listProducts.jsp").forward(request,response);
+        request.getRequestDispatcher("/listProducts.jsp").forward(request,response);
     }
 }

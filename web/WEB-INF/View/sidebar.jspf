@@ -6,7 +6,7 @@
 
         </li>
         <li>
-            <a href="FormAddController">AGGIUNGI PRODOTTO</a>
+            <a href="FormAddController?action=add">AGGIUNGI PRODOTTO</a>
 
         </li>
         <li>

@@ -42,7 +42,7 @@ public class FacadeServiceImpl implements FacadeService {
     @Override
     public void update(FilmDTO film) {
         FilmDAO filmDAO = FactoryDAO.getFactoryDAO(FactoryDAO.Type.JDBC).getFilmDAO();
-        filmDAO.delete(new DTOAssembler().getFilm(film));
+        filmDAO.update(new DTOAssembler().getFilm(film));
     }
 
     @Override

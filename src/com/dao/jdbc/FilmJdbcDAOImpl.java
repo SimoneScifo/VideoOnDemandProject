@@ -65,6 +65,7 @@ public class FilmJdbcDAOImpl implements FilmDAO {
             PreparedStatement pStmt = con.prepareStatement(query);
             pStmt.setInt(1, idInput);
             ResultSet rs = pStmt.executeQuery();
+            rs.next();
             int id = rs.getInt("id");
             String title = rs.getString("title");
             int id_genre = rs.getInt("id_genre");
@@ -81,11 +82,12 @@ public class FilmJdbcDAOImpl implements FilmDAO {
     @Override
     public void update(Product f) {
         try (Connection con = JdbcDAOFactory.getConnection()) {
-            String query = "UPDATE film SET title=?, id_genre=?, year=?";
+            String query = "UPDATE film SET title=?, id_genre=?, year=? WHERE id=?";
             PreparedStatement pStmt = con.prepareStatement(query);
             pStmt.setString(1, f.getTitle());
             pStmt.setInt(2, f.getGenre());
             pStmt.setInt(3, f.getYear());
+            pStmt.setInt(4,f.getId());
             pStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,9 +97,11 @@ public class FilmJdbcDAOImpl implements FilmDAO {
     @Override
     public void delete(Product f) {
         try (Connection con = JdbcDAOFactory.getConnection()) {
+            System.out.println(f.getId());
             String query = "DELETE FROM film WHERE id=?";
             PreparedStatement pStmt = con.prepareStatement(query);
             pStmt.setInt(1,f.getId());
+            pStmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }

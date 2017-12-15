@@ -25,6 +25,12 @@
             <td><%=f.title%></td>
             <td><%=f.getGenresMap().get(f.id_genre).getName()%></td>
             <td><%=f.year%></td>
+            <td>
+                <a href="FormAddController?action=edit&id=<%=f.id%>">
+                <input type="button" name="edit" id="edit" value="EDIT" ></a></td>
+            <td>
+            <a href="FormAddController?action=delete&id=<%=f.id%>">
+                <input type="button" name="delete" id="delete" value="DELETE" ></a></td>
             <td></td>
         </tr>
         <%
@@ -32,5 +38,5 @@
         %>
         </tbody>
     </table>
-    <a href="FormAddController">Modulo carica prodotto</a>
+    <a href="FormAddController?action=add">Modulo carica prodotto</a>
 </article>

@@ -10,7 +10,9 @@ import java.util.List;
 public class DTOAssembler {
 
     public Product getFilm(FilmDTO filmDTO){
-        return new Product(filmDTO.title, filmDTO.id_genre, filmDTO.year);
+        Product p = new Product(filmDTO.title, filmDTO.id_genre, filmDTO.year);
+        p.setId(filmDTO.id);
+        return p;
     }
 
     public List<FilmDTO> getFilmsDTO() {
