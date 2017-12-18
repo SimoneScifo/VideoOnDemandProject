@@ -24,11 +24,12 @@ public class FilmJdbcDAOImpl implements FilmDAO {
     @Override
     public void insert(Product f) {
         try (Connection con = JdbcDAOFactory.getConnection()) {
-            String query = "INSERT INTO film (title, id_genre, year) VALUES (?,?,?)";
+            String query = "INSERT INTO film (title, id_genre, year, cover) VALUES (?,?,?,?)";
             PreparedStatement pStmt = con.prepareStatement(query);
             pStmt.setString(1, f.getTitle());
             pStmt.setInt(2, f.getGenre());
             pStmt.setInt(3, f.getYear());
+            pStmt.setString(4,f.getCover());
             pStmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,8 +48,10 @@ public class FilmJdbcDAOImpl implements FilmDAO {
                 String title = rs.getString("title");
                 int id_genre = rs.getInt("id_genre");
                 int year = rs.getInt("year");
+                String cover = rs.getString("cover");
                 Product p = new Product(title, id_genre, year);
                 p.setId(id);
+                p.setCover(cover);
                 products.add(p);
             }
             return products;
@@ -70,8 +73,10 @@ public class FilmJdbcDAOImpl implements FilmDAO {
             String title = rs.getString("title");
             int id_genre = rs.getInt("id_genre");
             int year = rs.getInt("year");
+            String cover = rs.getString("cover");
             Product p = new Product(title, id_genre, year);
             p.setId(id);
+            p.setCover(cover);
             return p;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,12 +87,13 @@ public class FilmJdbcDAOImpl implements FilmDAO {
     @Override
     public void update(Product f) {
         try (Connection con = JdbcDAOFactory.getConnection()) {
-            String query = "UPDATE film SET title=?, id_genre=?, year=? WHERE id=?";
+            String query = "UPDATE film SET title=?, id_genre=?, year=?, cover=? WHERE id=?";
             PreparedStatement pStmt = con.prepareStatement(query);
             pStmt.setString(1, f.getTitle());
             pStmt.setInt(2, f.getGenre());
             pStmt.setInt(3, f.getYear());
-            pStmt.setInt(4,f.getId());
+            pStmt.setString(4,f.getCover());
+            pStmt.setInt(5,f.getId());
             pStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

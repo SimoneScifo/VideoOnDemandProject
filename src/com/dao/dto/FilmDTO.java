@@ -23,6 +23,7 @@ public class FilmDTO {
     public String description;
     public LocalDateTime creationDate;
     public LocalDateTime lastModifyDate;
+    public String cover;
 
     public FilmDTO (){}
 
@@ -30,7 +31,7 @@ public class FilmDTO {
         this.id = film.getId();
         this.title = film.getTitle();
         this.id_genre = film.getGenre();
-        this.genre = (Genre)getGenresMap().get(id_genre);
+        this.genre = getGenresMap().get(id_genre);
         this.year = film.getYear();
         this.film_director = film.getFilm_director();
         this.cast = film.getCast();
@@ -38,6 +39,7 @@ public class FilmDTO {
         this.description = film.getDescription();
         this.creationDate = film.getCreationDate();
         this.lastModifyDate = film.getLastModifyDate();
+        this.cover = film.getCover();
     }
 
     public Map<Integer,Genre> getGenresMap(){

@@ -16,6 +16,8 @@
             <th scope="col">TITOLO</th>
             <th scope="col">GENERE</th>
             <th scope="col">ANNO</th>
+            <th scope="col">COPERTINA</th>
+
         </tr>
         </thead>
         <tbody>
@@ -25,6 +27,15 @@
             <td><%=f.title%></td>
             <td><%=f.getGenresMap().get(f.id_genre).getName()%></td>
             <td><%=f.year%></td>
+            <%
+            if (!(f.cover == null)){
+                if(!(f.cover.equalsIgnoreCase("null"))){
+            %>
+            <td><img src="http://localhost:8080/images/<%=f.cover%>" height="100px" width="100px"></td>
+            <%
+                    }
+                }
+                %>
             <td>
                 <a href="FormAddController?action=edit&id=<%=f.id%>">
                 <input type="button" name="edit" id="edit" value="EDIT" ></a></td>

@@ -10,10 +10,13 @@
     String id = String.valueOf(request.getAttribute("id"));
     String genreForm = String.valueOf(request.getAttribute("genre"));
     String yearForm = String.valueOf(request.getAttribute("year"));
+    String cover = (String) request.getAttribute("cover");
     String action = (String)request.getAttribute("action");
+
     titleForm=(titleForm==null||titleForm.equals("null"))?"":titleForm;
     genreForm=(genreForm==null||genreForm.equals("null"))?"0":genreForm;
     yearForm=(yearForm==null||yearForm.equals("null"))?"":yearForm;
+    cover = (cover==null||cover.equals("null"))?"":cover;
     action=(action==null||action.equals("null"))?"add":action;
     id=(id==null)?"0":id;
 %>
@@ -48,7 +51,7 @@
         Anno
         <br>
         <input type="text" name="year" value='<%=yearForm%>'/><br>
-        <input name="cover" type="file"><br>
+        <input name="cover" type="file" value="<%=cover%>"><br>
         <%
         if(action.equals("add")){
         %>

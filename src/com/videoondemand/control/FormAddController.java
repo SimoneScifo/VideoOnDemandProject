@@ -11,11 +11,13 @@ import com.videoondemand.model.Product;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +26,37 @@ import java.util.List;
  * Created by Simone on 28/11/2017.
  */
 @WebServlet("/FormAddController")
+@MultipartConfig
 public class FormAddController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Immagine
+
+        final String path = "http://localhost:8080/images/";
+        final Part filePart = request.getPart("cover");
+        final String fileName;
+        if(filePart.getSize()>0){ // Ha caricato l'immagine
+            fileName = getFileName(filePart);
+            String finalPath = "D:\\Simone\\Documenti\\ELIS\\JAVA\\JAVA EE\\VideoOnDemandProject\\web\\images\\" + fileName;
+            try(OutputStream out= new FileOutputStream(new File(finalPath));
+                InputStream filecontent = filePart.getInputStream();){
+                int read = 0;
+                final byte[] bytes = new byte[1024];
+                while((read= filecontent.read(bytes))!= -1){
+                    out.write(bytes, 0, read);
+                }
+            } catch (FileNotFoundException fne){
+                fne.printStackTrace();
+            }
+
+        }
+        else{
+            fileName="NULL";
+        }
+
+
+        //Fine immagine
+
         String title = request.getParameter("title");
         String genre = request.getParameter("genre");
         String year = request.getParameter("year");
@@ -34,21 +64,21 @@ public class FormAddController extends HttpServlet {
         String action = request.getParameter("action");
 
         FacadeService facadeService = FacadeServiceImpl.getInstance();
-
         List<String> errors = validate(title, Integer.parseInt(genre), year);
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
             request.setAttribute("title", title);
             request.setAttribute("genre", genre);
             request.setAttribute("year", year);
+            request.setAttribute("cover", fileName); //Immagine
             doGet(request, response);
         } else {
             FilmDTO filmDTO = new FilmDTO();
             filmDTO.title = title;
             filmDTO.id_genre = Integer.valueOf(genre);
             filmDTO.year = Integer.valueOf(year);
+            filmDTO.cover = fileName;
             if (action.equals("add")) {
-
                 facadeService.insert(filmDTO);
             } else if (action.equals("edit")) {
                 filmDTO.id = Integer.parseInt(id);
@@ -60,6 +90,7 @@ public class FormAddController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+
         FacadeService facadeService = FacadeServiceImpl.getInstance();
 
         if (action.equals("add")) {
@@ -125,5 +156,15 @@ public class FormAddController extends HttpServlet {
         } else {
             return false;
         }
+    }
+
+    private String getFileName(final Part part){
+        for(String content: part.getHeader("content-disposition").split(";")){
+            if(content.trim().startsWith("filename")){
+                return content.substring(
+                        content.indexOf('=')+1).trim().replace("\"","");
+            }
+        }
+        return null;
     }
 }

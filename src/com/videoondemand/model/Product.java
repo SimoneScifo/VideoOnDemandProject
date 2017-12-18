@@ -16,6 +16,7 @@ public class Product {
     private String description;
     private LocalDateTime creationDate;
     private LocalDateTime lastModifyDate;
+    private String cover;
 
     public Product(String title, int id_genre, int year) {
         this.title = title;
@@ -77,5 +78,11 @@ public class Product {
 
     public LocalDateTime getLastModifyDate() {
         return lastModifyDate;
+    }
+
+    public String getCover (){return cover;}
+
+    public void setCover (String cover){
+        this.cover = cover;
     }
 }

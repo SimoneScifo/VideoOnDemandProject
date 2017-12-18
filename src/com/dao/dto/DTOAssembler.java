@@ -12,6 +12,7 @@ public class DTOAssembler {
     public Product getFilm(FilmDTO filmDTO){
         Product p = new Product(filmDTO.title, filmDTO.id_genre, filmDTO.year);
         p.setId(filmDTO.id);
+        p.setCover(filmDTO.cover);
         return p;
     }
 
