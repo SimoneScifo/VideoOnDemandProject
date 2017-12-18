@@ -3,6 +3,7 @@ package com.dao.memory;
 import com.dao.FactoryDAO;
 import com.dao.FilmDAO;
 import com.dao.GenreDAO;
+import com.dao.UserDAO;
 import com.dao.jdbc.GenreJdbcDAOImpl;
 
 /**
@@ -29,5 +30,10 @@ public class MemoryDAOFactory extends FactoryDAO {
     @Override
     public GenreDAO getGenreDAO() {
         return GenreJdbcDAOImpl.getInstance();
+    }
+
+    @Override
+    public UserDAO getUserDAO() {
+        return null;
     }
 }

@@ -1,3 +1,4 @@
+<%@ page import="com.videoondemand.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -42,4 +43,11 @@
 <div style="background-color:black; padding:30px">
 <p style="text-align: center; color: azure">Video On Demand</p>
 </div>
+<%
+    User u = (User) session.getAttribute("user");
+    if(u!=null){
+%>
 <%@include file="sidebar.jspf"%>
+<%
+    }
+%>

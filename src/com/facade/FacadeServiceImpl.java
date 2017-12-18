@@ -2,9 +2,11 @@ package com.facade;
 
 import com.dao.FactoryDAO;
 import com.dao.FilmDAO;
+import com.dao.UserDAO;
 import com.dao.dto.DTOAssembler;
 import com.dao.dto.FilmDTO;
 import com.videoondemand.model.Genre;
+import com.videoondemand.model.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,9 +54,14 @@ public class FacadeServiceImpl implements FacadeService {
     }
 
     @Override
+    public User findByCredentials(String username,String password) {
+        UserDAO userDAO = FactoryDAO.getFactoryDAO(FactoryDAO.Type.JDBC).getUserDAO();
+        User u = userDAO.findByCredentials(username,password);
+        return u;
+    }
+
+    @Override
     public Map findAllGenres() {
         return new FilmDTO().getGenresMap();
     }
-
-
 }

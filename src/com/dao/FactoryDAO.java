@@ -12,6 +12,7 @@ public abstract class FactoryDAO {
     }
     public abstract FilmDAO getFilmDAO();
     public abstract GenreDAO getGenreDAO();
+    public abstract UserDAO getUserDAO();
 
     public static FactoryDAO getFactoryDAO(Type type){
         switch (type){

@@ -37,7 +37,7 @@ public class FormAddController extends HttpServlet {
         final String fileName;
         if(filePart.getSize()>0){ // Ha caricato l'immagine
             fileName = getFileName(filePart);
-            String finalPath = "D:\\Simone\\Documenti\\ELIS\\JAVA\\JAVA EE\\VideoOnDemandProject\\web\\images\\" + fileName;
+            String finalPath = "D:\\Simone\\Documenti\\ELIS\\JAVA\\JAVA EE\\apache-tomcat-8.5.23\\webapps\\images\\" + fileName;
             try(OutputStream out= new FileOutputStream(new File(finalPath));
                 InputStream filecontent = filePart.getInputStream();){
                 int read = 0;

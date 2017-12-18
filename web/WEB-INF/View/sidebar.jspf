@@ -6,9 +6,14 @@
 
         </li>
         <li>
+            <%
+                if(u.getId_role()==1){
+            %>
             <a href="FormAddController?action=add">AGGIUNGI PRODOTTO</a>
-
         </li>
+            <%
+                }
+            %>
         <li>
         <a href="FilmList">VISUALIZZA LISTA</a>
 
