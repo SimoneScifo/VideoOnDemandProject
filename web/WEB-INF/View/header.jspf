@@ -26,6 +26,7 @@
         }
 
         article{
+            margin-bottom: 100px;
             float:right;
             width:87%;
         }
