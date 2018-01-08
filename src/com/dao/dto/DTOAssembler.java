@@ -16,10 +16,10 @@ public class DTOAssembler {
         return p;
     }
 
-    public List<FilmDTO> getFilmsDTO() {
+    public List<FilmDTO> getFilmsDTO(String order) {
         FilmDAO filmDAO = FactoryDAO.getFactoryDAO(FactoryDAO.Type.JDBC).getFilmDAO();
         List<FilmDTO> filmDTOList = new ArrayList<>();
-        for(Product x : filmDAO.findAll()){
+        for(Product x : filmDAO.findAll(order)){
             filmDTOList.add(getFilmDTO(x));
         }
         return filmDTOList;

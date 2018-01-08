@@ -37,10 +37,16 @@ public class FilmJdbcDAOImpl implements FilmDAO {
     }
 
     @Override
-    public List<Product> findAll() {
+    public List<Product> findAll(String order) {
         List<Product> products = new ArrayList<>();
         try (Connection con = JdbcDAOFactory.getConnection()) {
             String query = "SELECT * FROM film";
+            switch (order){
+                case "yearAsc": query+=" ORDER BY year ASC";
+                break;
+                case "titleDesc": query+=" ORDER BY title DESC";
+                break;
+            }
             PreparedStatement pStmt = con.prepareStatement(query);
             ResultSet rs = pStmt.executeQuery();
             while (rs.next()) {
@@ -112,4 +118,6 @@ public class FilmJdbcDAOImpl implements FilmDAO {
             e.printStackTrace();
         }
     }
+
+
 }

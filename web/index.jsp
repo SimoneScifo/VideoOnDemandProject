@@ -3,9 +3,4 @@
 
 <article>
 <img  src="http://www.datamanager.it/wp-content/uploads/2015/12/video-on-demand.jpg"/>
-    <%
-        if(u==null){
-            request.getRequestDispatcher("/login.jsp").forward(request,response);
-        }
-    %>
 </article>

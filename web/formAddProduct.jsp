@@ -23,7 +23,7 @@
 <article>
 <h1>Modulo Carica Prodotto</h1>
 <br>
-    <form action="FormAddController?action=<%=action%>" method="post" enctype="multipart/form-data">
+    <form action='<%=response.encodeURL("FormAddController?action="+ action)%>' method="post" enctype="multipart/form-data">
         Title
         <br>
         <input type="text" name="title" value='<%=titleForm%>'/>
@@ -76,7 +76,8 @@
     <%
     }
     else if(errors!=null && errors.isEmpty()){
-        response.sendRedirect("FilmList");
+
+        response.sendRedirect(response.encodeURL("FilmList"));
     }
     %>
 </article>

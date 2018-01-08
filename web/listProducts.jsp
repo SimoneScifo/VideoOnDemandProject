@@ -9,7 +9,23 @@
 <%
     List<FilmDTO> listFilm = (List<FilmDTO>)request.getAttribute("list");
 
+    String order = (String) request.getAttribute("order");
+    order = order==null?"":order;
+
+    String orderCookieCheck = (String)request.getAttribute("orderCookieCheck");
 %>
+    <form action='<%=response.encodeURL("FilmList")%>' method="post">
+        <select name="order">
+            <option value="titleDesc"<%if(order.equals("titleDesc")){%> selected <%}%>>A-Z</option>
+            <option value="yearAsc"<%if(order.equals("yearAsc")){%> selected <%}%>>ANNO</option>
+        </select>
+        <br>
+
+
+        <input type="checkbox" name="orderSavedCheck" value="true" <%if(orderCookieCheck!=null){%>checked<%}%>>Ricorda questa scelta<br>
+
+        <input type="submit" value="Ordina">
+    </form>
     <table class="table table-striped table-dark">
         <thead>
         <tr>
@@ -37,10 +53,12 @@
                 }
                 %>
             <td>
-                <a href="FormAddController?action=edit&id=<%=f.id%>">
+
+                <a href='<%=response.encodeURL("FormAddController?action=edit&id=" + f.id)%>'>
                 <input type="button" name="edit" id="edit" value="EDIT" ></a></td>
             <td>
-            <a href="FormAddController?action=delete&id=<%=f.id%>">
+
+            <a href='<%=response.encodeURL("FormAddController?action=delete&id=" + f.id)%>'>
                 <input type="button" name="delete" id="delete" value="DELETE" ></a></td>
             <td></td>
         </tr>
@@ -49,5 +67,5 @@
         %>
         </tbody>
     </table>
-    <a href="FormAddController?action=add">Modulo carica prodotto</a>
+    <a href='<%=response.encodeURL("FormAddController?action=add")%>'>Modulo carica prodotto</a>
 </article>

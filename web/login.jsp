@@ -12,7 +12,7 @@
         String error = (String) request.getAttribute("error");
         error = error==null?"":(String) request.getAttribute("error");
     %>
-    <form action="LoginController" method="post">
+    <form action='<%=response.encodeURL("LoginController")%>' method="post">
     <input type="text" name="usernameLogin"/>
         <br>
     <input type="password" name="passwordLogin">
@@ -21,6 +21,6 @@
     </form>
     <br>
     <h1 style="color: red;"><%=error%></h1>
-    <a href="register.jsp">SIGN UP</a>
+    <a href='<%=response.encodeURL("register.jsp")%>'>SIGN UP</a>
 </article>
 

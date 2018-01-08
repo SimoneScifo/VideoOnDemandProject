@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface FilmDAO {
     void insert(Product f);
-    List<Product> findAll();
+    List<Product> findAll(String order);
     Product findById(int id);
     void update(Product f);
     void delete(Product f);

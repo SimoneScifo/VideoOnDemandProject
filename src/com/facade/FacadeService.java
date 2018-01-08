@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface FacadeService {
     void insert (FilmDTO film);
-    List<FilmDTO> findAll();
+    List<FilmDTO> findAll(String order);
     FilmDTO findByID(int id);
     void update (FilmDTO film);
     void delete (FilmDTO film);

@@ -5,6 +5,7 @@ import com.dao.FilmDAO;
 import com.dao.UserDAO;
 import com.dao.dto.DTOAssembler;
 import com.dao.dto.FilmDTO;
+import com.sun.security.sasl.ntlm.FactoryImpl;
 import com.videoondemand.model.Genre;
 import com.videoondemand.model.User;
 
@@ -31,8 +32,8 @@ public class FacadeServiceImpl implements FacadeService {
     }
 
     @Override
-    public List<FilmDTO> findAll() {
-        return new DTOAssembler().getFilmsDTO();
+    public List<FilmDTO> findAll(String order) {
+        return new DTOAssembler().getFilmsDTO(order);
     }
 
     @Override

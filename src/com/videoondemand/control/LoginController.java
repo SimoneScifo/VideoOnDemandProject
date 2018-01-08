@@ -27,13 +27,13 @@ public class LoginController extends HttpServlet {
            request.getRequestDispatcher("/index.jsp").forward(request,response);
         }
         else{
+            String advise = "Username o password errati";
+            request.setAttribute("error", advise);
             doGet(request,response);
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String advise = "Username o password errati";
-        request.setAttribute("error", advise);
         request.getRequestDispatcher("/login.jsp").forward(request,response);
     }
 }

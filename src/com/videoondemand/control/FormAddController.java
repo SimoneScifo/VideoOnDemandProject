@@ -8,15 +8,13 @@ import com.facade.FacadeServiceImpl;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.videoondemand.model.Genre;
 import com.videoondemand.model.Product;
+import com.videoondemand.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -85,12 +83,12 @@ public class FormAddController extends HttpServlet {
                 facadeService.update(filmDTO);
             }
         }
-        response.sendRedirect("FilmList");
+        response.sendRedirect(response.encodeURL("FilmList"));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
+        action = action==null?"add":request.getParameter("action");
         FacadeService facadeService = FacadeServiceImpl.getInstance();
 
         if (action.equals("add")) {

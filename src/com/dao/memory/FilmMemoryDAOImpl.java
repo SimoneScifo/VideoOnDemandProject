@@ -27,9 +27,8 @@ private List<Product> database = DataModel.getProductList();
         database.add(f);
     }
 
-
     @Override
-    public List<Product> findAll() {
+    public List<Product> findAll(String order) {
         return this.database;
     }
 
